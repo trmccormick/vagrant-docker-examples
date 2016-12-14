@@ -1,0 +1,10 @@
+# Rakefile
+
+def host_vm_ip
+  `cd ../host_vm;vagrant ssh-config`.scan(/HostName \d+\.\d+\.\d+\.\d+/).first.split(' ').last
+end
+
+desc 'Opens the apache2 docker container web page in browser'
+task :demo do
+   `open http://#{host_vm_ip}:8080`
+end
