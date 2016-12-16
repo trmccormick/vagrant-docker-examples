@@ -16,7 +16,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       d.name = APP_NAME
       d.ports = ["3000:3000"]
       d.build_dir = "."
-      # d.image = "centos:latest"
     end
   end
 end
