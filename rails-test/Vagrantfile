@@ -8,7 +8,7 @@ APP_NAME = 'rails-test'
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.synced_folder "./example-rails-app", "/var/app"
+  config.vm.synced_folder "./example-rails-app", "/myapp"
   config.vm.define APP_NAME do |db|
     db.vm.provider "docker" do |d|
       d.vagrant_vagrantfile = "../docker-host-vm/Vagrantfile"
