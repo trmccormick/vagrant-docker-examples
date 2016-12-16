@@ -1,19 +1,13 @@
-FROM ruby:2.3
+FROM ruby:2.3.3
 
-# see update.sh for why all "apt-get install"s have to stay as one long line
-RUN apt-get update && apt-get install -y nodejs --no-install-recommends && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+RUN apt-get update
+RUN apt-get install -y mysql-client
 
-# see http://guides.rubyonrails.org/command_line.html#rails-dbconsole
-RUN apt-get update && apt-get install -y mysql-client postgresql-client sqlite3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
-
-ENV RAILS_VERSION 5.0.0.1
-
-RUN gem install rails --version "$RAILS_VERSION"
-
-FROM rails
-MAINTAINER Laura Frank <laura@codeship.com>
-RUN mkdir -p /var/app
-COPY ./example-rails-app /var/app
-WORKDIR /var/app
+RUN mkdir /myapp
+WORKDIR /myapp
+ADD ./example-rails-app/Gemfile /myapp/Gemfile
+ADD ./example-rails-app/Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
+COPY ./example-rails-app /myapp
 CMD rails s -b 0.0.0.0
